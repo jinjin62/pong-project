@@ -1,9 +1,9 @@
 import { SVG_NS } from "../settings";
+import { KEYS } from "../settings";
+import { GAP } from "../settings";
 import Board from "./Board";
 import Paddle from "./Paddle";
 import Ball from "./Ball";
-import { KEYS } from "../settings";
-import { GAP } from "../settings";
 
 export default class Game {
   constructor(element, width, height) {
@@ -18,7 +18,8 @@ export default class Game {
     this.paddleHeight = 68;
     this.boadGap = GAP;
 
-    this.ball = new Ball(8, this.width, this.height);
+    this.radius = 8;
+    this.ball = new Ball(this.radius, this.width, this.height);
 
     this.paddle1 = new Paddle(
       this.height,
@@ -38,9 +39,19 @@ export default class Game {
       KEYS.up,
       KEYS.down
     );
+
+    document.addEventListener("keydown", event => {
+      if (event.key === KEYS.spaceBar) {
+        this.pause = !this.pause;
+      }
+    });
   }
 
   render() {
+    // pause
+    if (this.pause) {
+      return;
+    }
     // empty out game element before rendering
     this.gameElement.innerHTML = "";
 
@@ -57,6 +68,6 @@ export default class Game {
     this.paddle1.render(svg);
     this.paddle2.render(svg);
 
-    this.ball.render(svg);
+    this.ball.render(svg, this.paddle1, this.paddle2);
   }
 }
