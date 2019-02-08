@@ -60,6 +60,11 @@ export default class Ball {
         this.vx = -this.vx;
         this.ping.play();
       }
+
+      if (this.x >= leftX && this.y <= topY && this.y >= bottomY) {
+        this.vx = -this.vx;
+        this.ping.play();
+      }
     } else {
       let paddle = paddle1.coordinates(
         paddle1.x,
@@ -77,13 +82,16 @@ export default class Ball {
         this.vx = -this.vx;
         this.ping.play();
       }
+      if (this.x <= rightX && this.y >= topY && this.y <= bottomY) {
+        this.vx = -this.vx;
+        this.ping.play();
+      }
     }
   }
 
   goal(player) {
     player.score++;
     this.reset();
-    console.log(player.score);
   }
 
   render(svg, paddle1, paddle2) {

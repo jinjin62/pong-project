@@ -15,12 +15,13 @@ export default class Game {
 
     this.board = new Board(this.width, this.height);
 
-    this.paddleWidth = 8;
+    this.paddleWidth = 30;
     this.paddleHeight = 68;
     this.boadGap = GAP;
 
     this.radius = 8;
     this.ball = new Ball(this.radius, this.width, this.height);
+    this.ball2 = new Ball(20, this.width, this.height);
 
     this.paddle1 = new Paddle(
       this.height,
@@ -47,7 +48,7 @@ export default class Game {
       }
     });
     this.score1 = new Score(this.width / 2 - 50, 30, 30);
-    this.score2 = new Score(this.width / 2 + 25, 30 ,30);
+    this.score2 = new Score(this.width / 2 + 25, 30, 30);
   }
 
   render() {
@@ -72,6 +73,7 @@ export default class Game {
     this.paddle2.render(svg);
 
     this.ball.render(svg, this.paddle1, this.paddle2);
+    this.ball2.render(svg, this.paddle1, this.paddle2);
 
     this.score1.render(svg, this.paddle1.score);
     this.score2.render(svg, this.paddle2.score);
