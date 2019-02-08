@@ -1,4 +1,5 @@
 import { SVG_NS } from "../settings";
+import { globalAgent } from "http";
 
 export default class Ball {
   constructor(radius, boardWidth, boardHeight) {
@@ -6,6 +7,7 @@ export default class Ball {
     this.boardWidth = boardWidth;
     this.boardHeight = boardHeight;
     this.direction = 1;
+    this.ping = new Audio("public/sounds/pong-01.wav");
 
     //set X and Y coordinates at the center
     this.reset();
@@ -38,19 +40,74 @@ export default class Ball {
   }
 
   paddleCollision(paddle1, paddle2) {
-    
+    if (this.vx > 0) {
+      // dectect player 2 collision positive+ side
+      let paddle = paddle2.coordinates(
+        paddle2.x,
+        paddle2.y,
+        paddle2.width,
+        paddle2.height
+      );
+      let { leftX, topY, bottomY } = paddle;
+
+      if (
+        this.x + this.radius >= leftX &&
+        this.y >= topY &&
+        this.y <= bottomY
+        // is the rightedge of the ball >= left edge of the paddle
+        // and is the ball Y >= top of the paddle and <= the bottom of the paddle?
+      ) {
+        this.vx = -this.vx;
+        this.ping.play();
+      }
+    } else {
+      let paddle = paddle1.coordinates(
+        paddle1.x,
+        paddle1.y,
+        paddle1.width,
+        paddle1.height
+      );
+      let { rightX, topY, bottomY } = paddle;
+
+      if (
+        this.x - this.radius <= rightX &&
+        this.y >= topY &&
+        this.y <= bottomY
+      ) {
+        this.vx = -this.vx;
+        this.ping.play();
+      }
+    }
+  }
+
+  goal(player) {
+    player.score++;
+    this.reset();
+    console.log(player.score);
   }
 
   render(svg, paddle1, paddle2) {
     this.x += this.vx;
     this.y += this.vy;
     this.wallCollision();
+    this.paddleCollision(paddle1, paddle2);
     let circle = document.createElementNS(SVG_NS, "circle");
     circle.setAttributeNS(null, "r", this.radius);
     circle.setAttributeNS(null, "cx", this.x);
     circle.setAttributeNS(null, "cy", this.y);
     circle.setAttributeNS(null, "fill", "white");
-
     svg.appendChild(circle);
+
+    //Dectect the goal
+    const rightGoal = this.x + this.radius >= this.boardWidth;
+    const leftGoal = this.x - this.radius <= 0;
+
+    if (rightGoal) {
+      this.goal(paddle1);
+      this.direction = 1;
+    } else if (leftGoal) {
+      this.goal(paddle2);
+      this.direction = -1;
+    }
   }
 }
