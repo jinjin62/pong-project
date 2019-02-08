@@ -2,6 +2,7 @@ import { SVG_NS } from "../settings";
 import Board from "./Board";
 import Paddle from "./Paddle";
 import { KEYS } from "../settings";
+import { GAP } from "../settings";
 
 export default class Game {
   constructor(element, width, height) {
@@ -14,21 +15,25 @@ export default class Game {
 
     this.paddleWidth = 8;
     this.paddleHeight = 68;
-    this.boadGap = 10;
+    this.boadGap = GAP;
 
     this.paddle1 = new Paddle(
       this.height,
       this.paddleWidth,
       this.paddleHeight,
       this.boadGap,
-      (this.height - this.paddleHeight) / 2
+      (this.height - this.paddleHeight) / 2,
+      KEYS.a,
+      KEYS.z
     );
     this.paddle2 = new Paddle(
       this.height,
       this.paddleWidth,
       this.paddleHeight,
       this.width - this.paddleWidth - this.boadGap,
-      (this.height - this.paddleHeight) / 2
+      (this.height - this.paddleHeight) / 2,
+      KEYS.up,
+      KEYS.down
     );
   }
 
