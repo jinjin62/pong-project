@@ -43,18 +43,13 @@ export default class Paddle {
 
   render(svg) {
     let paddle = document.createElementNS(SVG_NS, "rect");
-    // set all rect attributes...
+
     paddle.setAttributeNS(null, "width", this.width);
     paddle.setAttributeNS(null, "height", this.height);
     paddle.setAttributeNS(null, "x", this.x);
     paddle.setAttributeNS(null, "y", this.y);
     paddle.setAttributeNS(null, "fill", "white");
-    //rect.setAttributeNS(null,  'height', this.boardHeight)
-    // paddle.setAttributeNS(null, 'speed', this.speed);
-    // paddle.setAttributeNS(null, 'score', this.score);
 
     svg.appendChild(paddle);
-
-    // how do we actaully append this thing into the SVG game
   }
 }

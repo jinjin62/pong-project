@@ -5,6 +5,7 @@ import Board from "./Board";
 import Paddle from "./Paddle";
 import Ball from "./Ball";
 import Score from "./Score";
+import Winner from "./Winner";
 
 export default class Game {
   constructor(element, width, height) {
@@ -15,7 +16,7 @@ export default class Game {
 
     this.board = new Board(this.width, this.height);
 
-    this.paddleWidth = 30;
+    this.paddleWidth = 8;
     this.paddleHeight = 68;
     this.boadGap = GAP;
 
@@ -49,6 +50,13 @@ export default class Game {
     });
     this.score1 = new Score(this.width / 2 - 50, 30, 30);
     this.score2 = new Score(this.width / 2 + 25, 30, 30);
+
+    this.winner = new Winner(this.width / 2 - 110, 10, 70);
+  }
+
+  winningPlayer(svg, paddle) {
+    this.winner.render(svg, `${paddle} is the winner!`);
+    this.pause = true;
   }
 
   render() {
@@ -56,7 +64,7 @@ export default class Game {
     if (this.pause) {
       return;
     }
-    // empty out game element before rendering
+
     this.gameElement.innerHTML = "";
 
     let svg = document.createElementNS(SVG_NS, "svg");
@@ -67,7 +75,6 @@ export default class Game {
 
     this.gameElement.appendChild(svg);
 
-    // rendering all game elements inside the SVG
     this.board.render(svg);
     this.paddle1.render(svg);
     this.paddle2.render(svg);
@@ -77,5 +84,13 @@ export default class Game {
 
     this.score1.render(svg, this.paddle1.score);
     this.score2.render(svg, this.paddle2.score);
+
+    this.winner.render(svg);
+
+    if (this.paddle1.score === 1) {
+      this.winningPlayer(svg, "Paddle 1");
+    } else if (this.paddle2.score === 1) {
+      this.winningPlayer(svg, "Paddle 2");
+    }
   }
 }

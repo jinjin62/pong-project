@@ -1,5 +1,4 @@
 import { SVG_NS } from "../settings";
-import { globalAgent } from "http";
 
 export default class Ball {
   constructor(radius, boardWidth, boardHeight) {
@@ -7,9 +6,8 @@ export default class Ball {
     this.boardWidth = boardWidth;
     this.boardHeight = boardHeight;
     this.direction = 1;
-    this.ping = new Audio("public/sounds/pong-01.wav");
+    this.ping = new Audio("public/sounds/6_1njp68r.mp3");
 
-    //set X and Y coordinates at the center
     this.reset();
   }
 
@@ -18,11 +16,11 @@ export default class Ball {
     this.y = this.boardHeight / 2;
 
     this.vy = 0;
-    //generatiing a random number between -5 and 5
+
     while (this.vy === 0) {
       this.vy = Math.floor(Math.random() * 10 - 5);
     }
-    // setting a number between -5 and 5, based on the vy
+
     this.vx = this.direction * (6 - Math.abs(this.vy));
   }
 
@@ -41,21 +39,19 @@ export default class Ball {
 
   paddleCollision(paddle1, paddle2) {
     if (this.vx > 0) {
-      // dectect player 2 collision positive+ side
       let paddle = paddle2.coordinates(
         paddle2.x,
         paddle2.y,
         paddle2.width,
         paddle2.height
       );
+
       let { leftX, topY, bottomY } = paddle;
 
       if (
         this.x + this.radius >= leftX &&
         this.y >= topY &&
         this.y <= bottomY
-        // is the rightedge of the ball >= left edge of the paddle
-        // and is the ball Y >= top of the paddle and <= the bottom of the paddle?
       ) {
         this.vx = -this.vx;
         this.ping.play();
@@ -106,7 +102,6 @@ export default class Ball {
     circle.setAttributeNS(null, "fill", "white");
     svg.appendChild(circle);
 
-    //Dectect the goal
     const rightGoal = this.x + this.radius >= this.boardWidth;
     const leftGoal = this.x - this.radius <= 0;
 
