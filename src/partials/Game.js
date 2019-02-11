@@ -31,7 +31,8 @@ export default class Game {
       this.boadGap,
       (this.height - this.paddleHeight) / 2,
       KEYS.a,
-      KEYS.z
+      KEYS.z,
+      "paddle1"
     );
     this.paddle2 = new Paddle(
       this.height,
@@ -40,7 +41,8 @@ export default class Game {
       this.width - this.paddleWidth - this.boadGap,
       (this.height - this.paddleHeight) / 2,
       KEYS.up,
-      KEYS.down
+      KEYS.down,
+      "paddle2"
     );
 
     document.addEventListener("keydown", event => {
@@ -87,9 +89,9 @@ export default class Game {
 
     this.winner.render(svg);
 
-    if (this.paddle1.score === 1) {
+    if (this.paddle1.score === 10) {
       this.winningPlayer(svg, "Paddle 1");
-    } else if (this.paddle2.score === 1) {
+    } else if (this.paddle2.score === 10) {
       this.winningPlayer(svg, "Paddle 2");
     }
   }

@@ -9,4 +9,4 @@ export const KEYS = {
 };
 
 export const GAP = 10;
-export const SPEED = 20;
+export const SPEED = 5;

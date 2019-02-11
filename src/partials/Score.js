@@ -14,7 +14,9 @@ export default class Score {
     text.setAttributeNS(null, "font-family", "Silkscreen Web", "monotype");
     text.setAttributeNS(null, "fonts-size", this.size);
     text.setAttributeNS(null, "fill", "white");
+
     text.textContent = score;
+    
     svg.appendChild(text);
   }
 }

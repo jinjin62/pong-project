@@ -7,13 +7,13 @@ export default class Board {
   }
   render(svg) {
     let rect = document.createElementNS(SVG_NS, "rect");
-    // set all rect attributes...
+
     rect.setAttributeNS(null, "width", this.width);
     rect.setAttributeNS(null, "height", this.height);
     rect.setAttributeNS(null, "color", "#353535");
 
     let line = document.createElementNS(SVG_NS, "line");
-    //set all line attributes
+
     line.setAttributeNS(null, "stroke-dasharray", "15, 10");
     line.setAttributeNS(null, "x1", this.width / 2);
     line.setAttributeNS(null, "x2", this.width / 2);
@@ -24,6 +24,5 @@ export default class Board {
 
     svg.appendChild(rect);
     svg.appendChild(line);
-    // how do we actaully append this thing into the SVG game
   }
 }
